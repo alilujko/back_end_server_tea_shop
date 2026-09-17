@@ -56,10 +56,19 @@ def reg(data: Register):
 @app.post('/change_data')
 def change_data(data: Change_data):
     menu = read('database.json')
-    menu[data.old_name]["name"] = data.new_name
-    menu[data.old_name]["image"] = data.new_image
-    menu[data.old_name]["price"] = data.new_price
-    
+
+    key = data.old_name
+    if key not in menu:
+        key = next((k for k, item in menu.items() if item.get("name") == data.old_name), None)
+        if key is None:
+            return {"message": "товар не знайдено"}
+
+    item = menu.pop(key)
+    item["name"] = data.new_name
+    item["image"] = data.new_image
+    item["price"] = data.new_price
+    menu[data.new_name] = item
+
     write("database.json", menu)
 
     return {"message":"добре пройшло"}
