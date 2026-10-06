@@ -79,13 +79,17 @@ def change_data(data: Change_data):
     return {"message":"добре пройшло"}
 
 @app.post('/add_data')
-def new_product(data: Add_data):
+def add_data(data: Add_data):
     gavno = read("database.json")
 
     if data.new_name in gavno:
         pass
     else:
-        gavno[data.new_name] = data
+        item = {}
+        item["name"] = data.new_name
+        item["image"] = data.new_image
+        item["price"] = data.new_price
+        gavno[data.new_name][item]
         write('database.json', gavno)    
     
     return True
