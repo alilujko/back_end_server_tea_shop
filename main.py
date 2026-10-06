@@ -37,6 +37,11 @@ class Change_data(BaseModel):
     new_image: str
     new_price: int
 
+class Add_data:
+    new_name: str
+    new_image: str
+    new_price: int
+
 @app.get('/')
 def main():
     return {"message":"Вітаю вас на потужному сервер"}
@@ -72,6 +77,18 @@ def change_data(data: Change_data):
     write("database.json", menu)
 
     return {"message":"добре пройшло"}
+
+@app.post('/add_data')
+def new_product(data: Add_data):
+    gavno = read("database.json")
+
+    if data.new_name in gavno:
+        pass
+    else:
+        gavno[data.new_name] = data
+        write('database.json', gavno)    
+    
+    return True
 
 if __name__ == '__main__':
     uvicorn.run(app)
