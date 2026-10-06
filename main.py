@@ -37,7 +37,7 @@ class Change_data(BaseModel):
     new_image: str
     new_price: int
 
-class Add_data:
+class Add_data(BaseModel):
     new_name: str
     new_image: str
     new_price: int
@@ -89,7 +89,7 @@ def add_data(data: Add_data):
         item["name"] = data.new_name
         item["image"] = data.new_image
         item["price"] = data.new_price
-        gavno[data.new_name][item]
+        gavno[data.new_name] = [item]
         write('database.json', gavno)    
     
     return True
